@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery — Zaragoza Restaurant &amp; Bar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  #gallery-main { background: var(--charcoal); }
+
+  /* ── FILTER TABS ── */
+  .gallery-filters {
+    display: flex; gap: 0;
+    border-bottom: 1px solid rgba(196,146,58,0.2);
+    margin-bottom: 56px; flex-wrap: wrap;
+  }
+  .gallery-filter {
+    padding: 13px 32px; font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent;
+    margin-bottom: -1px; transition: color 0.2s, border-color 0.2s; font-weight: 400;
+    background: none; border-top: none; border-left: none; border-right: none;
+    font-family: 'Jost', sans-serif;
+  }
+  .gallery-filter.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .gallery-filter:hover { color: var(--gold-light); }
+
+  /* ── MASONRY GRID ── */
+  .gallery-masonry {
+    columns: 3; column-gap: 4px;
+  }
+  .gallery-tile {
+    break-inside: avoid; overflow: hidden; cursor: pointer;
+    position: relative; margin-bottom: 4px;
+    transition: opacity 0.4s;
+  }
+  .gallery-tile.hidden { display: none; }
+  .gallery-tile svg, .gallery-tile img {
+    width: 100%; display: block;
+    transition: transform 0.6s, filter 0.4s;
+    filter: brightness(0.8);
+  }
+  .gallery-tile:hover svg, .gallery-tile:hover img { transform: scale(1.04); filter: brightness(1); }
+  .gallery-tile-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(transparent 60%, rgba(26,23,20,0.85));
+    opacity: 0; transition: opacity 0.3s;
+    display: flex; align-items: flex-end; padding: 20px;
+  }
+  .gallery-tile:hover .gallery-tile-overlay { opacity: 1; }
+  .gallery-tile-label {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
+  }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    position: fixed; inset: 0; background: rgba(10,8,6,0.95); z-index: 1000;
+    display: none; align-items: center; justify-content: center; padding: 40px;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox-content { position: relative; max-width: 800px; width: 100%; }
+  .lightbox-content svg { width: 100%; display: block; max-height: 80vh; }
+  .lightbox-close {
+    position: absolute; top: -44px; right: 0;
+    background: none; border: none; color: var(--cream); font-size: 28px; cursor: pointer; line-height: 1;
+  }
+  .lightbox-caption {
+    text-align: center; font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-top: 16px;
+  }
+
+  @media(max-width: 900px) {
+    .gallery-masonry { columns: 2; }
+  }
+  @media(max-width: 600px) {
+    .gallery-masonry { columns: 1; }
+    .gallery-filter { padding: 12px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-banner">Prototype — prepared by Ajackus — For Review Only</div>
+
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">ZARAGOZA <span>Restaurant &amp; Bar</span></a>
+  <ul class="nav-links">
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="gallery.html" class="active">Gallery</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="reservations.html" class="nav-cta">Reserve a Table</a></li>
+  </ul>
+  <div class="hamburger" onclick="openNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <button class="close-btn" onclick="closeNav()">✕</button>
+  <a href="index.html" onclick="closeNav()">Home</a>
+  <a href="menu.html" onclick="closeNav()">Menu</a>
+  <a href="about.html" onclick="closeNav()">Our Story</a>
+  <a href="events.html" onclick="closeNav()">Events</a>
+  <a href="gallery.html" onclick="closeNav()">Gallery</a>
+  <a href="contact.html" onclick="closeNav()">Contact</a>
+  <a href="reservations.html" onclick="closeNav()" class="drawer-reserve">Reserve a Table</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <p class="page-hero-eyebrow">Visual Experience</p>
+    <h1 class="page-hero-title">The <em>Gallery</em></h1>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<section id="gallery-main">
+  <p class="section-label">Food · Interior · Events</p>
+  <h2 class="section-title">A Glimpse Inside <em>Zaragoza</em></h2>
+  <div class="divider"></div>
+
+  <div class="gallery-filters">
+    <button class="gallery-filter active" data-filter="all">All</button>
+    <button class="gallery-filter" data-filter="food">Food</button>
+    <button class="gallery-filter" data-filter="interior">Interior</button>
+    <button class="gallery-filter" data-filter="bar">Bar &amp; Drinks</button>
+    <button class="gallery-filter" data-filter="events">Events</button>
+  </div>
+
+  <div class="gallery-masonry" id="galleryGrid">
+
+    <!-- INTERIOR: Dining room wide -->
+    <div class="gallery-tile" data-category="interior" data-label="Dining Room" onclick="openLightbox(this)">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=600&h=400&q=80" alt="Dining Room">
+      <div class="gallery-tile-overlay"><span class="gallery-tile-label">Dining Room</span></div>
+    </div>
+
+    <!-- FOOD: Paella -->
+    <div class="gallery-tile" data-category="food" data-label="Paella Valenciana" onclick="openLightbox(this)">
+      <img src="https://images.unsplash.com/photo-1586444248902-2f64eddc13df?auto=format&fit=crop&w=400&h=400&q=80" alt="Paella Valenciana">
+      <div class="gallery-tile-overlay"><span class="gallery-tile-label">Paella Valenciana</span></div>
+    </div>
+
+    <!-- BAR: Full bar scene -->
+    <div class="gallery-tile" data-category="bar" data-label="The Bar" onclick="openLightbox(this)">
+      <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=400&h=560&q=80" alt="The Bar">
+      <div class="gallery-tile-overlay"><span class="gallery-tile-label">The Bar</span></div>
+    </div>
+
+    <!-- FOOD: Tapas plate -->
+    <div class="gallery-tile" data-category="food" data-label="Tapas Selection" onclick="openLightbox(this)">
+      <img src="https://images.unsplash.com/photo-1599481238640-4c1288750d7a?auto=format&fit=crop&w=400&h=360&q=80" alt="Tapas Selection">
+      <div class="gallery-tile-overlay"><span class="gallery-tile-label">Tapas Selection</span></div>
+    </div>
+
+    <!-- INTERIOR: Private dining room -->
+    <div class="gallery-tile" data-category="interior" data-label="Sala Aragón — Private Dining" onclick="openLightbox(this)">
+      <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?auto=format&fit=crop&w=400&h=500&q=80" alt="Sala Aragón — Private Dining">
+      <div class="gallery-tile-overlay"><span class="gallery-tile-label">Sala Aragón — Private Dining</span></div>
+    </div>
+
+    <!-- BAR: Sangria & cocktails -->
+    <div class="gallery-tile" data-category="bar" data-label="Signature Drinks" onclick="openLightbox(this)">
+      <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=400&h=360&q=80" alt="Signature Drinks">
+      <div class="gallery-tile-overlay"><span class="gallery-tile-label">Signature Drinks</span></div>
+    </div>
+
+    <!-- EVENTS: Wine tasting setup -->
+    <div class="gallery-tile" data-category="events" data-label="Wine Tasting Evening" onclick="openLightbox(this)">
+      <img src="https://images.unsplash.com/photo-1551218372-a8789b81b253?auto=format&fit=crop&w=400&h=420&q=80" alt="Wine Tasting Evening">
+      <div class="gallery-tile-overlay"><span class="gallery-tile-label">Wine Tasting Evening</span></div>
+    </div>
+
+    <!-- FOOD: Charcuterie board -->
+    <div class="gallery-tile" data-category="food" data-label="Jamón Ibérico Board" onclick="openLightbox(this)">
+      <img src="https://images.unsplash.com/photo-1481931098730-318b6f776db0?auto=format&fit=crop&w=400&h=320&q=80" alt="Jamón Ibérico Board">
+      <div class="gallery-tile-overlay"><span class="gallery-tile-label">Jamón Ibérico Board</span></div>
+    </div>
+
+    <!-- EVENTS: Private dining event -->
+    <div class="gallery-tile" data-category="events" data-label="Private Celebration" onclick="openLightbox(this)">
+      <img src="https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&w=400&h=480&q=80" alt="Private Celebration">
+      <div class="gallery-tile-overlay"><span class="gallery-tile-label">Private Celebration</span></div>
+    </div>
+
+    <!-- FOOD: Crema Catalana -->
+    <div class="gallery-tile" data-category="food" data-label="Crema Catalana" onclick="openLightbox(this)">
+      <img src="https://images.unsplash.com/photo-1526218626217-dc65a29bb444?auto=format&fit=crop&w=400&h=340&q=80" alt="Crema Catalana">
+      <div class="gallery-tile-overlay"><span class="gallery-tile-label">Crema Catalana</span></div>
+    </div>
+
+    <!-- INTERIOR: Bar counter detail -->
+    <div class="gallery-tile" data-category="interior" data-label="Bar Counter" onclick="openLightbox(this)">
+      <img src="https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=400&h=380&q=80" alt="Bar Counter">
+      <div class="gallery-tile-overlay"><span class="gallery-tile-label">Bar Counter</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-content">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <div id="lightboxSvg"></div>
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div style="background:var(--dark-2);padding:70px 60px;text-align:center;border-top:1px solid rgba(196,146,58,0.15);">
+  <p class="section-label" style="text-align:center;">Come See for Yourself</p>
+  <h2 class="section-title" style="text-align:center;">Reserve Your <em>Evening</em></h2>
+  <div class="divider" style="margin:28px auto;"></div>
+  <a href="reservations.html" class="btn-primary">Reserve a Table</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">ZARAGOZA</div>
+      <p class="footer-brand-tagline">Authentic Spanish cuisine in the heart of the city.</p>
+      <div class="footer-social"><a href="#">in</a><a href="#">ig</a><a href="#">fb</a></div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Visit</div>
+      <ul class="footer-links">
+        <li><a href="#">142 Castile Avenue</a></li>
+        <li><a href="#">New York, NY 10001</a></li>
+        <li><a href="#">+1 (212) 555-0182</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Hours</div>
+      <ul class="footer-links">
+        <li><a href="#">Mon: Closed</a></li>
+        <li><a href="#">Tue–Thu: 12–10pm</a></li>
+        <li><a href="#">Fri–Sat: 12–11pm</a></li>
+        <li><a href="#">Sun: 12–9pm</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Zaragoza Restaurant &amp; Bar.</span>
+    <span>Prototype by Ajackus</span>
+  </div>
+</footer>
+
+<a href="reservations.html" class="sticky-reserve" id="stickyReserve">Reserve a Table</a>
+
+<script>
+// Filter
+document.querySelectorAll('.gallery-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.gallery-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.gallery-tile').forEach(tile => {
+      if (filter === 'all' || tile.dataset.category === filter) {
+        tile.classList.remove('hidden');
+      } else {
+        tile.classList.add('hidden');
+      }
+    });
+  });
+});
+
+// Lightbox
+function openLightbox(el) {
+  const img = el.querySelector('img');
+  const label = el.dataset.label || '';
+  document.getElementById('lightboxSvg').innerHTML = img
+    ? `<img src="${img.src.replace(/w=\d+/, 'w=1200').replace(/h=\d+/, 'h=800')}" alt="${label}" style="width:100%;display:block;object-fit:cover;">`
+    : el.querySelector('svg').outerHTML;
+  document.getElementById('lightboxCaption').textContent = label;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e) {
+  if (!e || e.target === document.getElementById('lightbox') || e.target.classList.contains('lightbox-close')) {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox({ target: document.getElementById('lightbox') }); });
+
+// Nav
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('stickyReserve').classList.toggle('visible', window.scrollY > 300);
+});
+function openNav() { document.getElementById('navDrawer').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeNav() { document.getElementById('navDrawer').classList.remove('open'); document.body.style.overflow=''; }
+</script>
+</body>
+</html>

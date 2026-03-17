@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu — Zaragoza Restaurant &amp; Bar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ── MENU PAGE SPECIFIC ── */
+  #menu-content { background: var(--charcoal); }
+
+  .menu-tabs {
+    display: flex; gap: 0;
+    border-bottom: 1px solid rgba(196,146,58,0.2);
+    margin-bottom: 60px; flex-wrap: wrap;
+  }
+  .menu-tab {
+    padding: 14px 32px; font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent;
+    margin-bottom: -1px; transition: color 0.2s, border-color 0.2s; font-weight: 400;
+    background: none; border-top: none; border-left: none; border-right: none;
+    font-family: 'Jost', sans-serif;
+  }
+  .menu-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .menu-tab:hover { color: var(--gold-light); }
+
+  .menu-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  }
+  .menu-item {
+    padding: 26px 0; border-bottom: 1px solid rgba(196,146,58,0.1);
+    display: flex; justify-content: space-between; gap: 24px; align-items: flex-start;
+  }
+  .menu-item:nth-child(odd) { padding-right: 54px; }
+  .menu-item:nth-child(even) { padding-left: 54px; border-left: 1px solid rgba(196,146,58,0.1); }
+  .menu-item-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 21px;
+    font-weight: 400; color: var(--cream); margin-bottom: 5px;
+  }
+  .menu-item-desc { font-size: 12px; color: var(--muted); line-height: 1.65; max-width: 300px; }
+  .menu-item-badge { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--terracotta); margin-top: 6px; }
+  .menu-item-price {
+    font-family: 'Cormorant Garamond', serif; font-size: 21px;
+    color: var(--gold); white-space: nowrap; flex-shrink: 0;
+  }
+
+  .menu-cta-band {
+    background: var(--dark-2); padding: 60px; text-align: center;
+    border-top: 1px solid rgba(196,146,58,0.15);
+  }
+  .menu-cta-text {
+    font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300;
+    color: var(--cream); margin-bottom: 10px;
+  }
+  .menu-cta-sub { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
+
+  @media(max-width: 900px) {
+    .menu-grid { grid-template-columns: 1fr; }
+    .menu-item:nth-child(odd) { padding-right: 0; }
+    .menu-item:nth-child(even) { padding-left: 0; border-left: none; }
+    .menu-cta-band { padding: 50px 28px; }
+  }
+  @media(max-width: 600px) {
+    .menu-tab { padding: 12px 18px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-banner">Prototype — prepared by Ajackus — For Review Only</div>
+
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">ZARAGOZA <span>Restaurant &amp; Bar</span></a>
+  <ul class="nav-links">
+    <li><a href="menu.html" class="active">Menu</a></li>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="reservations.html" class="nav-cta">Reserve a Table</a></li>
+  </ul>
+  <div class="hamburger" onclick="openNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <button class="close-btn" onclick="closeNav()">✕</button>
+  <a href="index.html" onclick="closeNav()">Home</a>
+  <a href="menu.html" onclick="closeNav()">Menu</a>
+  <a href="about.html" onclick="closeNav()">Our Story</a>
+  <a href="events.html" onclick="closeNav()">Events</a>
+  <a href="gallery.html" onclick="closeNav()">Gallery</a>
+  <a href="contact.html" onclick="closeNav()">Contact</a>
+  <a href="reservations.html" onclick="closeNav()" class="drawer-reserve">Reserve a Table</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <p class="page-hero-eyebrow">Culinary Offerings</p>
+    <h1 class="page-hero-title">Our <em>Menu</em></h1>
+  </div>
+</div>
+
+<!-- MENU CONTENT -->
+<section id="menu-content">
+  <p class="section-label" style="margin-bottom:0;">Seasonal &amp; Traditional Spanish Cuisine</p>
+  <p style="font-size:13px;color:var(--muted);margin-top:8px;margin-bottom:50px;font-weight:300;">All dishes are prepared fresh daily. Menu subject to seasonal changes. Please inform us of any dietary requirements.</p>
+
+  <div class="menu-tabs">
+    <button class="menu-tab active" data-tab="tapas">Tapas</button>
+    <button class="menu-tab" data-tab="mains">Mains</button>
+    <button class="menu-tab" data-tab="paella">Paella</button>
+    <button class="menu-tab" data-tab="drinks">Drinks</button>
+    <button class="menu-tab" data-tab="desserts">Desserts</button>
+  </div>
+
+  <div class="menu-grid" id="menuGrid">
+    <!-- Rendered by JS -->
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="menu-cta-band">
+  <p class="menu-cta-text">Ready to Experience It?</p>
+  <p class="menu-cta-sub">Secure your table and let us take care of the rest</p>
+  <a href="reservations.html" class="btn-primary">Reserve a Table</a>
+  &nbsp;&nbsp;
+  <a href="#" class="btn-outline" style="margin-top:12px;">Download PDF Menu</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">ZARAGOZA</div>
+      <p class="footer-brand-tagline">Authentic Spanish cuisine in the heart of the city.</p>
+      <div class="footer-social">
+        <a href="#">in</a><a href="#">ig</a><a href="#">fb</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Visit</div>
+      <ul class="footer-links">
+        <li><a href="#">142 Castile Avenue</a></li>
+        <li><a href="#">New York, NY 10001</a></li>
+        <li><a href="#">+1 (212) 555-0182</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Hours</div>
+      <ul class="footer-links">
+        <li><a href="#">Mon: Closed</a></li>
+        <li><a href="#">Tue–Thu: 12–10pm</a></li>
+        <li><a href="#">Fri–Sat: 12–11pm</a></li>
+        <li><a href="#">Sun: 12–9pm</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Zaragoza Restaurant &amp; Bar.</span>
+    <span>Prototype by Ajackus</span>
+  </div>
+</footer>
+
+<a href="reservations.html" class="sticky-reserve" id="stickyReserve">Reserve a Table</a>
+
+<script>
+const menuData = {
+  tapas: [
+    { name: 'Patatas Bravas', desc: 'Crispy potatoes, spicy brava sauce, garlic aioli', price: '$10', badge: '⭐ Chef\'s Favourite' },
+    { name: 'Croquetas de Jamón', desc: 'Serrano ham, béchamel, golden breadcrumb', price: '$13' },
+    { name: 'Pan con Tomate', desc: 'Rustic sourdough, fresh tomato, olive oil, sea salt', price: '$8' },
+    { name: 'Pimientos de Padrón', desc: 'Blistered peppers, fleur de sel, lemon', price: '$11', badge: '🌿 Vegetarian' },
+    { name: 'Jamón Ibérico Board', desc: '36-month Ibérico de bellota, membrillo, grissini', price: '$28', badge: '⭐ Signature' },
+    { name: 'Boquerones', desc: 'White anchovies, extra virgin olive oil, garlic, herbs', price: '$14' },
+    { name: 'Pulpo a la Gallega', desc: 'Octopus, smoked paprika, olive oil, sea salt, potato', price: '$22', badge: '⭐ Chef\'s Favourite' },
+    { name: 'Gambas al Ajillo', desc: 'King prawns, garlic, dry sherry, chili, parsley', price: '$24' },
+  ],
+  mains: [
+    { name: 'Cochinillo Asado', desc: 'Slow-roasted suckling pig, apple compote, jus, seasonal greens', price: '$48', badge: '⭐ Signature' },
+    { name: 'Merluza a la Vasca', desc: 'Basque-style hake, clams, asparagus, green sauce', price: '$36' },
+    { name: 'Cordero Lechal', desc: 'Roasted milk-fed lamb, rosemary, garlic, roasted vegetables', price: '$44', badge: '⭐ Chef\'s Favourite' },
+    { name: 'Lomo de Cerdo Ibérico', desc: 'Ibérico pork loin, Pedro Ximénez reduction, grilled mushrooms', price: '$38' },
+    { name: 'Pulpo a la Plancha', desc: 'Grilled octopus, potato purée, pimentón oil, micro herbs', price: '$40' },
+    { name: 'Menestra de Verduras', desc: 'Seasonal vegetables, artichokes, peas, jamón, soft egg', price: '$28', badge: '🌿 Vegetarian option' },
+  ],
+  paella: [
+    { name: 'Paella Valenciana', desc: 'Saffron rice, free-range chicken, rabbit, green beans, rosemary', price: '$38', badge: '⭐ Traditional' },
+    { name: 'Paella de Marisco', desc: 'Seafood paella — prawns, mussels, squid, clams, saffron broth', price: '$42', badge: '⭐ Chef\'s Favourite' },
+    { name: 'Arroz Negro', desc: 'Black rice, squid ink, cuttlefish, alioli, lemon', price: '$36' },
+    { name: 'Paella Mixta', desc: 'Chicken, chorizo, prawns, mussels, saffron — the crowd favourite', price: '$40' },
+    { name: 'Fideua', desc: 'Catalonian noodle paella, monkfish, prawns, aioli', price: '$34' },
+  ],
+  drinks: [
+    { name: 'Sangría de la Casa', desc: 'Red wine, brandy, seasonal fruit, cinnamon, orange — serves 2', price: '$28', badge: '⭐ House Special' },
+    { name: 'Clericot Blanco', desc: 'White wine sangria, elderflower, peach, mint — serves 2', price: '$26' },
+    { name: 'Tintos por Copa', desc: 'Selection of Spanish red wines — Rioja, Ribera del Duero, Garnacha', price: 'from $14' },
+    { name: 'Blancos por Copa', desc: 'White & rosé wines — Albariño, Verdejo, Txakoli', price: 'from $13' },
+    { name: 'Agua de Valencia', desc: 'Cava, fresh orange juice, gin, vodka — the Valencian classic', price: '$16', badge: '⭐ Signature Cocktail' },
+    { name: 'Rebujito', desc: 'Fino sherry, lemon Fanta, mint, ice — light and festive', price: '$14' },
+  ],
+  desserts: [
+    { name: 'Crema Catalana', desc: 'Silky custard, caramelized sugar crust, orange zest, cinnamon', price: '$12', badge: '⭐ Classic' },
+    { name: 'Churros con Chocolate', desc: 'Crispy churros, rich dark chocolate sauce, dusting of cinnamon sugar', price: '$11' },
+    { name: 'Tarta de Santiago', desc: 'Almond cake, lemon, cross of Saint James motif, crème fraîche', price: '$13' },
+    { name: 'Torrijas', desc: 'Spanish French toast, honey, vanilla ice cream, candied orange', price: '$12' },
+    { name: 'Tabla de Quesos', desc: 'Selection of Spanish cheeses — Manchego, Idiazábal, Cabrales, quince', price: '$22', badge: '⭐ For the Table' },
+  ]
+};
+
+function renderMenu(tab) {
+  const items = menuData[tab];
+  const grid = document.getElementById('menuGrid');
+  grid.innerHTML = items.map(item => `
+    <div class="menu-item">
+      <div>
+        <div class="menu-item-name">${item.name}</div>
+        <div class="menu-item-desc">${item.desc}</div>
+        ${item.badge ? `<div class="menu-item-badge">${item.badge}</div>` : ''}
+      </div>
+      <div class="menu-item-price">${item.price}</div>
+    </div>
+  `).join('');
+}
+
+document.querySelectorAll('.menu-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    renderMenu(tab.dataset.tab);
+  });
+});
+
+// Init
+renderMenu('tapas');
+
+// Nav
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('stickyReserve').classList.toggle('visible', window.scrollY > 300);
+});
+function openNav() { document.getElementById('navDrawer').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeNav() { document.getElementById('navDrawer').classList.remove('open'); document.body.style.overflow=''; }
+</script>
+</body>
+</html>

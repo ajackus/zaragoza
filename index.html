@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zaragoza Restaurant & Bar — Authentic Spanish Cuisine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ── HERO ── */
+  #hero {
+    position: relative; height: 100vh; min-height: 700px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Slides container */
+  .hero-slides { position: absolute; inset: 0; }
+  .hero-slide {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0; transition: opacity 1.6s ease;
+    transform: scale(1.07);
+  }
+  .hero-slide.active {
+    opacity: 1;
+    animation: kenBurns 9s ease forwards;
+  }
+  @keyframes kenBurns {
+    from { transform: scale(1.07); }
+    to   { transform: scale(1.00); }
+  }
+
+  /* Dark overlay sits above slides */
+  .hero-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(180deg, rgba(26,23,20,0.18) 0%, rgba(26,23,20,0.48) 55%, rgba(26,23,20,0.93) 100%);
+  }
+
+  /* Content */
+  .hero-content {
+    position: relative; text-align: center; z-index: 2; padding: 0 20px;
+    min-height: 380px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .hero-text-slide {
+    position: absolute; width: 100%;
+    opacity: 0; transform: translateY(18px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+    pointer-events: none;
+  }
+  .hero-text-slide.active {
+    opacity: 1; transform: translateY(0);
+    position: relative; pointer-events: auto;
+  }
+  .hero-eyebrow {
+    font-size: 11px; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); font-family: 'Jost', sans-serif; font-weight: 300;
+    margin-bottom: 22px;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 7.5vw, 104px); font-weight: 300; line-height: 0.94;
+    letter-spacing: -1px; color: var(--warm-white);
+  }
+  .hero-title em { font-style: italic; color: var(--gold-light); }
+  .hero-subtitle {
+    margin-top: 22px; font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(245,239,228,0.6); font-weight: 300;
+  }
+  .hero-actions {
+    margin-top: 46px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;
+    position: relative; z-index: 3;
+  }
+
+  /* Progress dots */
+  .hero-progress {
+    position: absolute; bottom: 96px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 10px; z-index: 3; align-items: center;
+  }
+  .hero-dot {
+    height: 2px; width: 32px; background: rgba(255,255,255,0.28);
+    cursor: pointer; transition: background 0.4s, width 0.4s;
+  }
+  .hero-dot.active { background: var(--gold); width: 52px; }
+
+  .hero-scroll {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 2;
+  }
+  .hero-scroll span { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); }
+  .scroll-line { width: 1px; height: 46px; background: linear-gradient(var(--gold), transparent); animation: scrollPulse 2s infinite; }
+
+  /* ── INTRO STRIP ── */
+  #intro {
+    background: var(--dark-2); padding: 60px;
+    text-align: center;
+  }
+  .intro-quote {
+    font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 3vw, 32px);
+    font-weight: 300; font-style: italic; color: var(--cream);
+    max-width: 780px; margin: 0 auto; line-height: 1.6;
+  }
+  .intro-quote span { color: var(--gold-light); }
+  .intro-line { width: 1px; height: 50px; background: linear-gradient(transparent, var(--gold), transparent); margin: 0 auto 24px; }
+
+  /* ── FEATURED DISHES ── */
+  #featured { background: var(--charcoal); }
+  .dishes-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 60px;
+  }
+  .dish-card {
+    position: relative; overflow: hidden; aspect-ratio: 3/4; cursor: pointer;
+  }
+  .dish-card svg, .dish-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; filter: brightness(0.75); }
+  .dish-card:hover svg, .dish-card:hover img { transform: scale(1.06); filter: brightness(0.92); }
+  .dish-info {
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 30px 24px;
+    background: linear-gradient(transparent, rgba(26,23,20,0.92));
+  }
+  .dish-category { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .dish-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; color: var(--warm-white); margin-bottom: 4px; }
+  .dish-desc { font-size: 12px; color: rgba(245,239,228,0.65); line-height: 1.5; margin-bottom: 10px; }
+  .dish-price { font-size: 15px; color: var(--gold-light); font-weight: 300; }
+  .section-footer { text-align: center; margin-top: 50px; }
+
+  /* ── ABOUT TEASER ── */
+  #about-teaser { background: var(--dark-2); }
+  .about-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .about-img-wrap { position: relative; }
+  .about-img-wrap svg, .about-img-wrap img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+  .about-img-accent {
+    position: absolute; bottom: -28px; right: -28px;
+    width: 58%; aspect-ratio: 1; border: 2px solid var(--gold); z-index: -1; pointer-events: none;
+  }
+  .about-text .section-title { margin-bottom: 24px; }
+  .about-body { font-size: 15px; line-height: 1.9; color: rgba(245,239,228,0.72); font-weight: 300; }
+  .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 44px; padding-top: 44px; border-top: 1px solid rgba(196,146,58,0.25); }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; color: var(--gold); line-height: 1; }
+  .stat-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+
+  /* ── RESERVATION CTA BAND ── */
+  #res-cta {
+    background: var(--dark-3); padding: 90px 60px;
+    position: relative; overflow: hidden; text-align: center;
+  }
+  #res-cta::before {
+    content: 'RESERVE'; position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Cormorant Garamond', serif; font-size: 200px; font-weight: 300;
+    color: rgba(196,146,58,0.05); letter-spacing: 20px; white-space: nowrap; pointer-events: none;
+  }
+  .res-cta-eyebrow { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); font-weight: 300; margin-bottom: 20px; }
+  .res-cta-title {
+    font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300; color: var(--cream); margin-bottom: 20px; line-height: 1.1;
+  }
+  .res-cta-title em { font-style: italic; color: var(--gold-light); }
+  .res-cta-sub { font-size: 14px; color: var(--muted); margin-bottom: 44px; font-weight: 300; letter-spacing: 0.5px; }
+  .res-cta-info { display: flex; justify-content: center; gap: 60px; margin-bottom: 48px; flex-wrap: wrap; }
+  .res-info-item { text-align: center; }
+  .res-info-label { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .res-info-val { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--cream); font-weight: 300; }
+
+  /* ── GALLERY PREVIEW ── */
+  #gallery-preview { background: var(--charcoal); }
+  .gallery-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 280px 280px;
+    gap: 3px; margin-top: 60px;
+  }
+  .gallery-cell { overflow: hidden; position: relative; cursor: pointer; }
+  .gallery-cell.span-rows { grid-row: 1 / 3; }
+  .gallery-cell svg, .gallery-cell img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.6s, filter 0.4s; filter: brightness(0.8); }
+  .gallery-cell:hover svg, .gallery-cell:hover img { transform: scale(1.06); filter: brightness(1); }
+  .gallery-cell-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 16px 18px;
+    background: linear-gradient(transparent, rgba(26,23,20,0.75));
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .gallery-cell:hover .gallery-cell-label { opacity: 1; }
+
+  /* ── REVIEWS ── */
+  #reviews { background: var(--dark-2); }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 60px; }
+  .review-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(196,146,58,0.15); padding: 36px 30px;
+  }
+  .review-stars { color: var(--gold); font-size: 14px; margin-bottom: 16px; letter-spacing: 3px; }
+  .review-text { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--cream); line-height: 1.7; margin-bottom: 24px; }
+  .review-author { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+  .review-platform { font-size: 10px; color: var(--gold); margin-top: 4px; letter-spacing: 1px; }
+
+  /* ── LOCATION STRIP ── */
+  #location-strip { background: #0f0d0b; padding: 80px 60px; }
+  .location-inner {
+    display: grid; grid-template-columns: 1fr 1px 1fr 1px 1fr; gap: 0;
+    align-items: center; max-width: 1000px; margin: 0 auto; text-align: center;
+  }
+  .loc-divider { background: rgba(196,146,58,0.2); align-self: stretch; }
+  .loc-block { padding: 0 40px; }
+  .loc-label { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  .loc-val { font-size: 14px; color: var(--cream); line-height: 1.8; font-weight: 300; }
+  .loc-link { display: inline-block; margin-top: 16px; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(196,146,58,0.4); padding-bottom: 2px; transition: color 0.2s; }
+  .loc-link:hover { color: var(--gold-light); }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width: 900px) {
+    #intro { padding: 50px 28px; }
+    .dishes-grid { grid-template-columns: 1fr 1fr; }
+    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+    .about-img-accent { display: none; }
+    #res-cta { padding: 70px 28px; }
+    #res-cta::before { display: none; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .gallery-cell.span-rows { grid-row: auto; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .location-inner { grid-template-columns: 1fr; gap: 36px; }
+    .loc-divider { display: none; }
+    #location-strip { padding: 60px 28px; }
+  }
+  @media(max-width: 600px) {
+    .dishes-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 52px; }
+    .gallery-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-banner">Prototype — prepared by Ajackus — For Review Only</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">ZARAGOZA <span>Restaurant &amp; Bar</span></a>
+  <ul class="nav-links">
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="reservations.html" class="nav-cta">Reserve a Table</a></li>
+  </ul>
+  <div class="hamburger" onclick="openNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- Mobile Drawer -->
+<div class="nav-drawer" id="navDrawer">
+  <button class="close-btn" onclick="closeNav()">✕</button>
+  <a href="index.html" onclick="closeNav()">Home</a>
+  <a href="menu.html" onclick="closeNav()">Menu</a>
+  <a href="about.html" onclick="closeNav()">Our Story</a>
+  <a href="events.html" onclick="closeNav()">Events</a>
+  <a href="gallery.html" onclick="closeNav()">Gallery</a>
+  <a href="contact.html" onclick="closeNav()">Contact</a>
+  <a href="reservations.html" onclick="closeNav()" class="drawer-reserve">Reserve a Table</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+
+  <!-- Background slides (simulate video sections) -->
+  <div class="hero-slides">
+    <!-- Slide 1: Spanish chef cooking -->
+    <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920&h=1080&q=80');"></div>
+    <!-- Slide 2: Dine-in customers -->
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1920&h=1080&q=80');"></div>
+    <!-- Slide 3: Dine-in customers -->
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&w=1920&h=1080&q=80');"></div>
+  </div>
+
+  <!-- Gradient overlay -->
+  <div class="hero-overlay"></div>
+
+  <!-- Text overlays -->
+  <div class="hero-content">
+
+    <!-- Slide 1 text -->
+    <div class="hero-text-slide active" id="heroText0">
+      <p class="hero-eyebrow">Authentic Spanish Cuisine · Est. 2008</p>
+      <h1 class="hero-title">Zaragoza<br><em>Restaurant</em> &amp; Bar</h1>
+      <p class="hero-subtitle">Where Tradition Meets Passion</p>
+    </div>
+
+    <!-- Slide 2 text -->
+    <div class="hero-text-slide" id="heroText1">
+      <p class="hero-eyebrow">&nbsp;</p>
+      <h1 class="hero-title"><em>Tap into</em> the Art<br>of Spanish Cuisine</h1>
+      <p class="hero-subtitle">&nbsp;</p>
+    </div>
+
+    <!-- Slide 3 text -->
+    <div class="hero-text-slide" id="heroText2">
+      <p class="hero-eyebrow">&nbsp;</p>
+      <h1 class="hero-title">Bringing the Taste<br>of <em>Spain</em> to<br>Your Table</h1>
+      <p class="hero-subtitle">&nbsp;</p>
+    </div>
+
+    <!-- CTAs always visible -->
+    <div class="hero-actions">
+      <a href="reservations.html" class="btn-primary">Reserve a Table</a>
+      <a href="menu.html" class="btn-outline">View Our Menu</a>
+    </div>
+  </div>
+
+  <!-- Slide progress indicators -->
+  <div class="hero-progress">
+    <div class="hero-dot active" onclick="heroGoTo(0)"></div>
+    <div class="hero-dot" onclick="heroGoTo(1)"></div>
+    <div class="hero-dot" onclick="heroGoTo(2)"></div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- INTRO STRIP -->
+<div id="intro">
+  <div class="intro-line"></div>
+  <p class="intro-quote">"A culinary journey through the heart of Spain — from the <span>bustling tapas bars of Zaragoza</span> to the sun-soaked coasts of Andalusia."</p>
+</div>
+
+<!-- FEATURED DISHES -->
+<section id="featured">
+  <p class="section-label">Chef's Selection</p>
+  <h2 class="section-title">Signature <em>Dishes</em></h2>
+  <div class="divider"></div>
+  <div class="dishes-grid">
+    <!-- Paella -->
+    <div class="dish-card">
+      <img src="https://images.unsplash.com/photo-1586444248902-2f64eddc13df?auto=format&fit=crop&w=400&h=533&q=80" alt="Paella Valenciana">
+      <div class="dish-info">
+        <p class="dish-category">Mains</p>
+        <h3 class="dish-name">Paella Valenciana</h3>
+        <p class="dish-desc">Saffron rice, chicken, rabbit, green beans, rosemary</p>
+        <span class="dish-price">$38</span>
+      </div>
+    </div>
+    <!-- Gambas -->
+    <div class="dish-card">
+      <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=400&h=533&q=80" alt="Gambas al Ajillo">
+      <div class="dish-info">
+        <p class="dish-category">Chef's Special</p>
+        <h3 class="dish-name">Gambas al Ajillo</h3>
+        <p class="dish-desc">Pan-seared prawns, garlic, chili flakes, dry sherry, parsley</p>
+        <span class="dish-price">$24</span>
+      </div>
+    </div>
+    <!-- Crema Catalana -->
+    <div class="dish-card">
+      <img src="https://images.unsplash.com/photo-1526218626217-dc65a29bb444?auto=format&fit=crop&w=400&h=533&q=80" alt="Crema Catalana">
+      <div class="dish-info">
+        <p class="dish-category">Desserts</p>
+        <h3 class="dish-name">Crema Catalana</h3>
+        <p class="dish-desc">Classic custard, caramelized sugar, orange zest, cinnamon</p>
+        <span class="dish-price">$12</span>
+      </div>
+    </div>
+  </div>
+  <div class="section-footer">
+    <a href="menu.html" class="btn-outline">Explore Full Menu</a>
+  </div>
+</section>
+
+<!-- ABOUT TEASER -->
+<section id="about-teaser">
+  <div class="about-inner">
+    <div class="about-img-wrap">
+      <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?auto=format&fit=crop&w=560&h=700&q=80" alt="Zaragoza Restaurant Interior">
+      <div class="about-img-accent"></div>
+    </div>
+    <div class="about-text">
+      <p class="section-label">Our Story</p>
+      <h2 class="section-title">A Taste of <em>Spain</em>,<br>Heart &amp; Soul</h2>
+      <div class="divider"></div>
+      <p class="about-body">Born from a love of Spanish tradition and the vibrant culture of Zaragoza, our restaurant brings the spirit of the Iberian table to life — fresh ingredients, time-honored techniques, and a warm, convivial atmosphere where every meal becomes a memory.</p>
+      <p class="about-body" style="margin-top:16px;">Our chef brings over two decades of Andalusian and Aragonese culinary expertise, curating a menu that celebrates the regional diversity of Spain's most beloved dishes.</p>
+      <div class="about-stats">
+        <div><div class="stat-num">20+</div><div class="stat-label">Years Experience</div></div>
+        <div><div class="stat-num">80+</div><div class="stat-label">Menu Items</div></div>
+        <div><div class="stat-num">★ 4.9</div><div class="stat-label">Guest Rating</div></div>
+      </div>
+      <div style="margin-top:44px;">
+        <a href="about.html" class="btn-outline">Our Full Story</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION CTA BAND -->
+<section id="res-cta">
+  <p class="res-cta-eyebrow">Reserve Your Evening</p>
+  <h2 class="res-cta-title">Dine with Us <em>Tonight</em></h2>
+  <p class="res-cta-sub">Tables fill quickly — we recommend booking in advance</p>
+  <div class="res-cta-info">
+    <div class="res-info-item">
+      <div class="res-info-label">Lunch Service</div>
+      <div class="res-info-val">12:00 – 3:00 PM</div>
+    </div>
+    <div class="res-info-item">
+      <div class="res-info-label">Dinner Service</div>
+      <div class="res-info-val">6:00 – 10:30 PM</div>
+    </div>
+    <div class="res-info-item">
+      <div class="res-info-label">Open</div>
+      <div class="res-info-val">Tue – Sun</div>
+    </div>
+  </div>
+  <a href="reservations.html" class="btn-primary" style="font-size:13px;padding:18px 52px;">Reserve a Table</a>
+</section>
+
+<!-- GALLERY PREVIEW -->
+<section id="gallery-preview">
+  <p class="section-label">Visual Experience</p>
+  <h2 class="section-title">A Glimpse of <em>Zaragoza</em></h2>
+  <div class="divider"></div>
+  <div class="gallery-grid">
+    <!-- Large: interior -->
+    <div class="gallery-cell span-rows">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=600&h=560&q=80" alt="Dining Room">
+      <div class="gallery-cell-label">Dining Room</div>
+    </div>
+    <!-- Tapas -->
+    <div class="gallery-cell">
+      <img src="https://images.unsplash.com/photo-1599481238640-4c1288750d7a?auto=format&fit=crop&w=400&h=280&q=80" alt="Tapas">
+      <div class="gallery-cell-label">Tapas Selection</div>
+    </div>
+    <!-- Bar -->
+    <div class="gallery-cell">
+      <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=400&h=280&q=80" alt="The Bar">
+      <div class="gallery-cell-label">The Bar</div>
+    </div>
+    <!-- Drinks -->
+    <div class="gallery-cell">
+      <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=400&h=280&q=80" alt="Drinks">
+      <div class="gallery-cell-label">Signature Drinks</div>
+    </div>
+  </div>
+  <div class="section-footer" style="margin-top:40px;">
+    <a href="gallery.html" class="btn-outline">View Full Gallery</a>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <p class="section-label">Guest Voices</p>
+  <h2 class="section-title">What Our Guests <em>Say</em></h2>
+  <div class="divider"></div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"An extraordinary evening. The Paella Valenciana was the finest I've had outside of Valencia itself — the saffron, the socarrat, the depth of flavour. Impeccable."</p>
+      <div class="review-author">— James R.</div>
+      <div class="review-platform">Google · 2 weeks ago</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"The atmosphere is transportive. Warm lighting, attentive staff, and a wine list that speaks to a genuine love of the Iberian peninsula. Already planning our return."</p>
+      <div class="review-author">— Camille &amp; Marcus T.</div>
+      <div class="review-platform">TripAdvisor · 1 month ago</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"The Gambas al Ajillo arrived sizzling — garlic, sherry, fire. Every tapa told a story. A restaurant that genuinely cares about what it puts on the table."</p>
+      <div class="review-author">— Sophie L.</div>
+      <div class="review-platform">Yelp · 3 weeks ago</div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION STRIP -->
+<div id="location-strip">
+  <div class="location-inner">
+    <div class="loc-block">
+      <div class="loc-label">Find Us</div>
+      <div class="loc-val">142 Castile Avenue<br>New York, NY 10001</div>
+      <a href="contact.html" class="loc-link">Get Directions</a>
+    </div>
+    <div class="loc-divider"></div>
+    <div class="loc-block">
+      <div class="loc-label">Hours</div>
+      <div class="loc-val">Tue – Thu: 12pm – 10pm<br>Fri – Sun: 12pm – 11pm</div>
+    </div>
+    <div class="loc-divider"></div>
+    <div class="loc-block">
+      <div class="loc-label">Reservations</div>
+      <div class="loc-val">+1 (212) 555-0182</div>
+      <a href="reservations.html" class="loc-link">Book Online</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">ZARAGOZA</div>
+      <p class="footer-brand-tagline">Authentic Spanish cuisine in the heart of the city. An experience rooted in tradition, elevated by passion.</p>
+      <div class="footer-social">
+        <a href="#">in</a>
+        <a href="#">ig</a>
+        <a href="#">fb</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Visit</div>
+      <ul class="footer-links">
+        <li><a href="#">142 Castile Avenue</a></li>
+        <li><a href="#">New York, NY 10001</a></li>
+        <li><a href="#">+1 (212) 555-0182</a></li>
+        <li><a href="#">hello@zaragoza.com</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Hours</div>
+      <ul class="footer-links">
+        <li><a href="#">Mon: Closed</a></li>
+        <li><a href="#">Tue–Thu: 12–10pm</a></li>
+        <li><a href="#">Fri–Sat: 12–11pm</a></li>
+        <li><a href="#">Sun: 12–9pm</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Zaragoza Restaurant &amp; Bar. All rights reserved.</span>
+    <span>Prototype by Ajackus</span>
+  </div>
+</footer>
+
+<a href="reservations.html" class="sticky-reserve" id="stickyReserve">Reserve a Table</a>
+
+<script>
+  // ── HERO SLIDESHOW ──
+  (function() {
+    const slides     = document.querySelectorAll('.hero-slide');
+    const textSlides = document.querySelectorAll('.hero-text-slide');
+    const dots       = document.querySelectorAll('.hero-dot');
+    let current = 0;
+
+    function heroGoTo(n) {
+      slides[current].classList.remove('active');
+      textSlides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = n;
+      slides[current].classList.add('active');
+      textSlides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+
+    // expose for onclick
+    window.heroGoTo = heroGoTo;
+
+    // Auto-advance every 6s
+    setInterval(function() {
+      heroGoTo((current + 1) % slides.length);
+    }, 6000);
+  })();
+
+  // Nav scroll effect
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+    document.getElementById('stickyReserve').classList.toggle('visible', window.scrollY > 500);
+  });
+
+  // Mobile nav
+  function openNav() { document.getElementById('navDrawer').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeNav() { document.getElementById('navDrawer').classList.remove('open'); document.body.style.overflow=''; }
+</script>
+</body>
+</html>

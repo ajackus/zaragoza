@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events &amp; Private Dining — Zaragoza Restaurant &amp; Bar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ── EVENTS GRID ── */
+  #events-main { background: var(--charcoal); }
+  .events-intro {
+    max-width: 700px; font-size: 15px; line-height: 1.9;
+    color: rgba(245,239,228,0.7); font-weight: 300; margin-bottom: 60px;
+  }
+  .events-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .event-card {
+    border: 1px solid rgba(196,146,58,0.2); padding: 44px 40px;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .event-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(196,146,58,0.06), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .event-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+  .event-card:hover::before { opacity: 1; }
+  .event-icon { font-size: 34px; margin-bottom: 22px; display: block; }
+  .event-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 30px;
+    font-weight: 400; color: var(--cream); margin-bottom: 14px;
+  }
+  .event-desc { font-size: 13px; color: var(--muted); line-height: 1.85; margin-bottom: 24px; }
+  .event-details { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
+  .event-detail-row { display: flex; gap: 12px; align-items: center; }
+  .event-detail-key { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); min-width: 70px; }
+  .event-detail-val { font-size: 13px; color: var(--cream); }
+  .event-link {
+    display: inline-block; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(196,146,58,0.5);
+    padding-bottom: 2px; transition: color 0.2s;
+  }
+  .event-link:hover { color: var(--gold-light); }
+
+  /* ── CAPACITY STRIP ── */
+  #capacity-strip {
+    background: var(--dark-3); padding: 70px 60px;
+    border-top: 1px solid rgba(196,146,58,0.15);
+  }
+  .capacity-inner { max-width: 1100px; margin: 0 auto; }
+  .capacity-intro { font-size: 15px; color: rgba(245,239,228,0.7); line-height: 1.85; max-width: 600px; margin-bottom: 50px; }
+  .capacity-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .capacity-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(196,146,58,0.15);
+    padding: 34px 28px;
+  }
+  .capacity-room { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--cream); margin-bottom: 8px; }
+  .capacity-cap { font-size: 36px; font-family: 'Cormorant Garamond', serif; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+  .capacity-cap-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+  .capacity-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .capacity-features li { font-size: 12px; color: rgba(245,239,228,0.65); display: flex; gap: 10px; align-items: flex-start; }
+  .capacity-features li::before { content: '·'; color: var(--gold); flex-shrink: 0; }
+
+  /* ── INQUIRY FORM ── */
+  #inquiry { background: var(--cream); color: var(--charcoal); }
+  #inquiry .section-title { color: var(--charcoal); }
+  #inquiry .section-label { color: var(--terracotta); }
+  #inquiry .divider { background: var(--terracotta); }
+  .inquiry-inner { max-width: 860px; margin: 0 auto; }
+  .inquiry-intro {
+    font-size: 14px; color: var(--muted); line-height: 1.85; margin-bottom: 0;
+    margin-top: -8px;
+  }
+
+  @media(max-width: 900px) {
+    .events-grid { grid-template-columns: 1fr; }
+    #capacity-strip { padding: 60px 28px; }
+    .capacity-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-banner">Prototype — prepared by Ajackus — For Review Only</div>
+
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">ZARAGOZA <span>Restaurant &amp; Bar</span></a>
+  <ul class="nav-links">
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="events.html" class="active">Events</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="reservations.html" class="nav-cta">Reserve a Table</a></li>
+  </ul>
+  <div class="hamburger" onclick="openNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <button class="close-btn" onclick="closeNav()">✕</button>
+  <a href="index.html" onclick="closeNav()">Home</a>
+  <a href="menu.html" onclick="closeNav()">Menu</a>
+  <a href="about.html" onclick="closeNav()">Our Story</a>
+  <a href="events.html" onclick="closeNav()">Events</a>
+  <a href="gallery.html" onclick="closeNav()">Gallery</a>
+  <a href="contact.html" onclick="closeNav()">Contact</a>
+  <a href="reservations.html" onclick="closeNav()" class="drawer-reserve">Reserve a Table</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <p class="page-hero-eyebrow">Celebrate with Us</p>
+    <h1 class="page-hero-title">Events &amp; <em>Private Dining</em></h1>
+  </div>
+</div>
+
+<!-- EVENTS GRID -->
+<section id="events-main">
+  <p class="section-label">What We Offer</p>
+  <h2 class="section-title">Experiences &amp; <em>Occasions</em></h2>
+  <div class="divider"></div>
+  <p class="events-intro">From intimate celebrations to large corporate gatherings, Zaragoza provides a setting of warmth and distinction. Our team will work with you to create an event that is entirely your own.</p>
+
+  <div class="events-grid">
+    <div class="event-card">
+      <span class="event-icon">🕯️</span>
+      <div class="event-title">Private Dining Room</div>
+      <p class="event-desc">Our intimate private dining room — the Sala Aragón — offers an exclusive setting for dinner parties, milestone celebrations, and business entertaining. Fully customisable with a dedicated service team.</p>
+      <div class="event-details">
+        <div class="event-detail-row"><span class="event-detail-key">Capacity</span><span class="event-detail-val">Up to 20 guests</span></div>
+        <div class="event-detail-row"><span class="event-detail-key">Duration</span><span class="event-detail-val">Full evening or half-day</span></div>
+        <div class="event-detail-row"><span class="event-detail-key">Menu</span><span class="event-detail-val">Set menu or à la carte</span></div>
+      </div>
+      <a href="#inquiry" class="event-link">Enquire Now</a>
+    </div>
+
+    <div class="event-card">
+      <span class="event-icon">🥂</span>
+      <div class="event-title">Exclusive Buyout</div>
+      <p class="event-desc">Book the entire restaurant for your event. Whether a product launch, wedding reception, or a corporate dinner, a full buyout of Zaragoza gives you the run of the space and the kitchen.</p>
+      <div class="event-details">
+        <div class="event-detail-row"><span class="event-detail-key">Capacity</span><span class="event-detail-val">Up to 80 guests</span></div>
+        <div class="event-detail-row"><span class="event-detail-key">Duration</span><span class="event-detail-val">Full day / evening</span></div>
+        <div class="event-detail-row"><span class="event-detail-key">Service</span><span class="event-detail-val">Canapes, banquet, or plated</span></div>
+      </div>
+      <a href="#inquiry" class="event-link">Enquire Now</a>
+    </div>
+
+    <div class="event-card">
+      <span class="event-icon">🍷</span>
+      <div class="event-title">Wine Tasting Evenings</div>
+      <p class="event-desc">Hosted by our sommelier, these intimate evenings explore the wines of Spain — from the structured reds of Rioja to the mineral whites of Galicia — paired with tapas and guided conversation.</p>
+      <div class="event-details">
+        <div class="event-detail-row"><span class="event-detail-key">Schedule</span><span class="event-detail-val">Monthly — see calendar</span></div>
+        <div class="event-detail-row"><span class="event-detail-key">Capacity</span><span class="event-detail-val">12–18 guests per session</span></div>
+        <div class="event-detail-row"><span class="event-detail-key">Includes</span><span class="event-detail-val">6 wines + tapas pairing</span></div>
+      </div>
+      <a href="#inquiry" class="event-link">Reserve a Seat</a>
+    </div>
+
+    <div class="event-card">
+      <span class="event-icon">👨‍🍳</span>
+      <div class="event-title">Chef's Table Experience</div>
+      <p class="event-desc">Dine at the chef's pass and watch Chef Alejandro Mora at work. A seven-course tasting menu inspired by the season, with wine pairings curated by our sommelier. An evening unlike any other.</p>
+      <div class="event-details">
+        <div class="event-detail-row"><span class="event-detail-key">Capacity</span><span class="event-detail-val">2–6 guests</span></div>
+        <div class="event-detail-row"><span class="event-detail-key">Duration</span><span class="event-detail-val">Approx. 3–4 hours</span></div>
+        <div class="event-detail-row"><span class="event-detail-key">Frequency</span><span class="event-detail-val">Fridays &amp; Saturdays only</span></div>
+      </div>
+      <a href="#inquiry" class="event-link">Request a Booking</a>
+    </div>
+  </div>
+</section>
+
+<!-- CAPACITY STRIP -->
+<div id="capacity-strip">
+  <div class="capacity-inner">
+    <p class="section-label">Our Spaces</p>
+    <h2 class="section-title">The Right Room for <em>Every Occasion</em></h2>
+    <div class="divider"></div>
+    <p class="capacity-intro">Zaragoza offers three distinct spaces, each with its own character. Our team will help you choose the room — and the experience — that best suits your occasion.</p>
+    <div class="capacity-grid">
+      <div class="capacity-card">
+        <div class="capacity-room">Sala Aragón</div>
+        <div class="capacity-cap">20</div>
+        <div class="capacity-cap-label">Max. Guests</div>
+        <ul class="capacity-features">
+          <li>Dedicated private entrance</li>
+          <li>Audio-visual facilities</li>
+          <li>Custom menu design</li>
+          <li>Personal service team</li>
+        </ul>
+      </div>
+      <div class="capacity-card">
+        <div class="capacity-room">Main Dining Room</div>
+        <div class="capacity-cap">55</div>
+        <div class="capacity-cap-label">Max. Guests</div>
+        <ul class="capacity-features">
+          <li>Available for partial or full buyout</li>
+          <li>Bar access included</li>
+          <li>Flexible floor plan</li>
+          <li>Ambient lighting control</li>
+        </ul>
+      </div>
+      <div class="capacity-card">
+        <div class="capacity-room">Full Venue Buyout</div>
+        <div class="capacity-cap">80</div>
+        <div class="capacity-cap-label">Max. Guests</div>
+        <ul class="capacity-features">
+          <li>Entire restaurant + bar</li>
+          <li>Exclusive use from 11am</li>
+          <li>Bespoke menus available</li>
+          <li>Live music &amp; DJ support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INQUIRY FORM -->
+<section id="inquiry">
+  <div class="inquiry-inner">
+    <p class="section-label">Get in Touch</p>
+    <h2 class="section-title">Plan Your <em>Event</em></h2>
+    <div class="divider" style="background:var(--terracotta);"></div>
+    <p class="inquiry-intro">Tell us about your event and we'll be in touch within 24 hours to discuss availability, menus, and pricing.</p>
+
+    <div class="form-grid" id="inquiryForm">
+      <div class="form-group">
+        <label>Your Name *</label>
+        <input type="text" id="inq-name" placeholder="Full name">
+      </div>
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" id="inq-email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="inq-phone" placeholder="+1 (000) 000-0000">
+      </div>
+      <div class="form-group">
+        <label>Event Type *</label>
+        <select id="inq-type">
+          <option value="">Select event type…</option>
+          <option>Private Dining Room</option>
+          <option>Full Venue Buyout</option>
+          <option>Wine Tasting Evening</option>
+          <option>Chef's Table Experience</option>
+          <option>Corporate Dinner</option>
+          <option>Wedding Reception</option>
+          <option>Birthday Celebration</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Preferred Date</label>
+        <input type="date" id="inq-date">
+      </div>
+      <div class="form-group">
+        <label>Number of Guests</label>
+        <select id="inq-guests">
+          <option>2–10 guests</option>
+          <option>11–20 guests</option>
+          <option>21–40 guests</option>
+          <option>41–60 guests</option>
+          <option>60+ guests</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Tell Us About Your Event</label>
+        <textarea id="inq-message" placeholder="Occasion, dietary requirements, special requests, budget range…"></textarea>
+      </div>
+      <button class="form-submit" onclick="submitInquiry()">Send Enquiry</button>
+    </div>
+
+    <div class="success-panel" id="inquirySuccess">
+      <span class="success-icon">✉️</span>
+      <div class="success-title" style="color:var(--terracotta);">Enquiry Received</div>
+      <p class="success-body" style="color:var(--muted);">Thank you for reaching out. Our events team will review your enquiry and get back to you within 24 hours to discuss your event in detail.</p>
+      <div class="success-detail" style="color:var(--charcoal);">We look forward to hosting you at Zaragoza.</div>
+      <button class="success-reset" style="border-color:rgba(168,68,42,0.4);color:var(--terracotta);" onclick="resetInquiry()">Submit Another Enquiry</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">ZARAGOZA</div>
+      <p class="footer-brand-tagline">Authentic Spanish cuisine in the heart of the city.</p>
+      <div class="footer-social"><a href="#">in</a><a href="#">ig</a><a href="#">fb</a></div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Visit</div>
+      <ul class="footer-links">
+        <li><a href="#">142 Castile Avenue</a></li>
+        <li><a href="#">New York, NY 10001</a></li>
+        <li><a href="#">+1 (212) 555-0182</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Hours</div>
+      <ul class="footer-links">
+        <li><a href="#">Mon: Closed</a></li>
+        <li><a href="#">Tue–Thu: 12–10pm</a></li>
+        <li><a href="#">Fri–Sat: 12–11pm</a></li>
+        <li><a href="#">Sun: 12–9pm</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Zaragoza Restaurant &amp; Bar.</span>
+    <span>Prototype by Ajackus</span>
+  </div>
+</footer>
+
+<a href="reservations.html" class="sticky-reserve" id="stickyReserve">Reserve a Table</a>
+
+<script>
+function submitInquiry() {
+  const name = document.getElementById('inq-name').value.trim();
+  const email = document.getElementById('inq-email').value.trim();
+  const type = document.getElementById('inq-type').value;
+  if (!name || !email || !type) {
+    alert('Please fill in your name, email, and event type.');
+    return;
+  }
+  document.getElementById('inquiryForm').style.display = 'none';
+  document.getElementById('inquirySuccess').classList.add('visible');
+  window.scrollTo({ top: document.getElementById('inquiry').offsetTop - 60, behavior: 'smooth' });
+}
+function resetInquiry() {
+  document.getElementById('inquiryForm').style.display = 'grid';
+  document.getElementById('inquirySuccess').classList.remove('visible');
+  document.getElementById('inq-name').value = '';
+  document.getElementById('inq-email').value = '';
+  document.getElementById('inq-phone').value = '';
+  document.getElementById('inq-type').value = '';
+  document.getElementById('inq-date').value = '';
+  document.getElementById('inq-message').value = '';
+}
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('stickyReserve').classList.toggle('visible', window.scrollY > 300);
+});
+function openNav() { document.getElementById('navDrawer').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeNav() { document.getElementById('navDrawer').classList.remove('open'); document.body.style.overflow=''; }
+</script>
+</body>
+</html>

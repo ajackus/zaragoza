@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Zaragoza Restaurant &amp; Bar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ── CONTACT MAIN ── */
+  #contact-main { background: var(--charcoal); }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px;
+    max-width: 1200px; margin: 0 auto; align-items: start;
+  }
+  .contact-info-panel { padding-top: 8px; }
+  .contact-block { margin-bottom: 44px; }
+  .contact-block:last-child { margin-bottom: 0; }
+  .contact-block-label {
+    font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 14px;
+  }
+  .contact-block-val {
+    font-size: 15px; color: var(--cream); line-height: 1.85; font-weight: 300;
+  }
+  .contact-block-val a { color: var(--cream); text-decoration: none; transition: color 0.2s; }
+  .contact-block-val a:hover { color: var(--gold-light); }
+
+  /* Hours table */
+  .hours-table { width: 100%; }
+  .hours-row {
+    display: flex; justify-content: space-between;
+    padding: 10px 0; border-bottom: 1px solid rgba(196,146,58,0.1);
+    font-size: 13px;
+  }
+  .hours-row:last-child { border-bottom: none; }
+  .hours-day { color: var(--muted); }
+  .hours-time { color: var(--cream); }
+  .hours-closed { color: var(--terracotta); }
+
+  /* Map placeholder */
+  .map-wrap {
+    background: #1e1b18; min-height: 380px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border: 1px solid rgba(196,146,58,0.15); gap: 16px; text-align: center; padding: 40px;
+  }
+  .map-icon { font-size: 52px; opacity: 0.35; }
+  .map-note { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+  .map-addr { font-size: 14px; color: var(--gold-light); margin-top: 4px; font-weight: 300; }
+  .map-cta {
+    display: inline-block; margin-top: 20px; font-size: 11px; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--gold); text-decoration: none;
+    border: 1px solid rgba(196,146,58,0.4); padding: 10px 24px; transition: background 0.2s;
+  }
+  .map-cta:hover { background: rgba(196,146,58,0.1); }
+  .map-note-small { font-size: 10px; color: var(--muted); opacity: 0.6; margin-top: 8px; }
+
+  /* ── CONTACT FORM ── */
+  #contact-form-section { background: var(--dark-2); }
+  .contact-form-inner { max-width: 800px; margin: 0 auto; }
+  .contact-form-intro {
+    font-size: 14px; color: var(--muted); line-height: 1.85; margin-bottom: 0;
+    margin-top: -8px;
+  }
+
+  /* ── FIND US BAND ── */
+  #find-us {
+    background: var(--dark-3); padding: 70px 60px;
+    border-top: 1px solid rgba(196,146,58,0.15);
+  }
+  .find-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px; max-width: 900px; margin: 0 auto; }
+  .find-item { text-align: center; }
+  .find-icon { font-size: 36px; margin-bottom: 16px; display: block; opacity: 0.75; }
+  .find-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--cream); margin-bottom: 10px; }
+  .find-body { font-size: 13px; color: var(--muted); line-height: 1.8; }
+  .find-body a { color: var(--gold); text-decoration: none; }
+
+  @media(max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 50px; }
+    #find-us { padding: 60px 28px; }
+    .find-grid { grid-template-columns: 1fr; gap: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-banner">Prototype — prepared by Ajackus — For Review Only</div>
+
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">ZARAGOZA <span>Restaurant &amp; Bar</span></a>
+  <ul class="nav-links">
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+    <li><a href="reservations.html" class="nav-cta">Reserve a Table</a></li>
+  </ul>
+  <div class="hamburger" onclick="openNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <button class="close-btn" onclick="closeNav()">✕</button>
+  <a href="index.html" onclick="closeNav()">Home</a>
+  <a href="menu.html" onclick="closeNav()">Menu</a>
+  <a href="about.html" onclick="closeNav()">Our Story</a>
+  <a href="events.html" onclick="closeNav()">Events</a>
+  <a href="gallery.html" onclick="closeNav()">Gallery</a>
+  <a href="contact.html" onclick="closeNav()">Contact</a>
+  <a href="reservations.html" onclick="closeNav()" class="drawer-reserve">Reserve a Table</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <p class="page-hero-eyebrow">Get in Touch</p>
+    <h1 class="page-hero-title"><em>Contact</em> Us</h1>
+  </div>
+</div>
+
+<!-- CONTACT INFO + MAP -->
+<section id="contact-main">
+  <div class="contact-grid">
+    <div class="contact-info-panel">
+      <p class="section-label">Visit &amp; Connect</p>
+      <h2 class="section-title">Find <em>Zaragoza</em></h2>
+      <div class="divider"></div>
+
+      <div class="contact-block">
+        <div class="contact-block-label">Address</div>
+        <div class="contact-block-val">142 Castile Avenue<br>New York, NY 10001<br>United States</div>
+      </div>
+
+      <div class="contact-block">
+        <div class="contact-block-label">Reservations &amp; Enquiries</div>
+        <div class="contact-block-val">
+          <a href="tel:+12125550182">+1 (212) 555-0182</a><br>
+          <a href="mailto:hello@zaragoza.com">hello@zaragoza.com</a>
+        </div>
+      </div>
+
+      <div class="contact-block">
+        <div class="contact-block-label">Private Events</div>
+        <div class="contact-block-val">
+          <a href="mailto:events@zaragoza.com">events@zaragoza.com</a><br>
+          <a href="tel:+12125550183">+1 (212) 555-0183</a>
+        </div>
+      </div>
+
+      <div class="contact-block">
+        <div class="contact-block-label">Opening Hours</div>
+        <div class="hours-table">
+          <div class="hours-row"><span class="hours-day">Monday</span><span class="hours-closed">Closed</span></div>
+          <div class="hours-row"><span class="hours-day">Tuesday – Thursday</span><span class="hours-time">12:00 PM – 10:00 PM</span></div>
+          <div class="hours-row"><span class="hours-day">Friday</span><span class="hours-time">12:00 PM – 11:00 PM</span></div>
+          <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time">12:00 PM – 11:00 PM</span></div>
+          <div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time">12:00 PM – 9:00 PM</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <!-- Map Placeholder -->
+      <div class="map-wrap">
+        <span class="map-icon">📍</span>
+        <div class="map-note">Map integration here</div>
+        <div class="map-addr">142 Castile Avenue, New York, NY 10001</div>
+        <a href="#" class="map-cta">Get Directions</a>
+        <p class="map-note-small">Google Maps / Wix Maps widget will be embedded here</p>
+      </div>
+      <div style="margin-top:28px;">
+        <a href="reservations.html" class="btn-primary" style="width:100%;display:block;text-align:center;">Reserve a Table</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIND US INFO BAND -->
+<div id="find-us">
+  <div class="find-grid">
+    <div class="find-item">
+      <span class="find-icon">🚇</span>
+      <div class="find-title">By Subway</div>
+      <p class="find-body">A, C, E lines — 34th St–Penn Station (8 min walk)<br>1, 2, 3 lines — 34th St (10 min walk)</p>
+    </div>
+    <div class="find-item">
+      <span class="find-icon">🚗</span>
+      <div class="find-title">By Car</div>
+      <p class="find-body">Valet parking available Fri–Sun from 5 PM. Paid parking garage on Castile Ave adjacent to the restaurant.</p>
+    </div>
+    <div class="find-item">
+      <span class="find-icon">🏨</span>
+      <div class="find-title">Nearby Hotels</div>
+      <p class="find-body">We partner with The Iberian Hotel (0.2mi) for complimentary transfers on dining reservations of 4 or more.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT FORM -->
+<section id="contact-form-section">
+  <div class="contact-form-inner">
+    <p class="section-label">Write to Us</p>
+    <h2 class="section-title">Send a <em>Message</em></h2>
+    <div class="divider"></div>
+    <p class="contact-form-intro">For general enquiries, press, or partnership opportunities. For reservations, please use our <a href="reservations.html" style="color:var(--gold);text-decoration:none;">online booking form</a>.</p>
+
+    <div class="form-grid form-light" id="contactForm">
+      <div class="form-group">
+        <label>Your Name *</label>
+        <input type="text" id="ct-name" placeholder="Full name">
+      </div>
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" id="ct-email" placeholder="your@email.com">
+      </div>
+      <div class="form-group full">
+        <label>Subject</label>
+        <input type="text" id="ct-subject" placeholder="How can we help?">
+      </div>
+      <div class="form-group full">
+        <label>Message *</label>
+        <textarea id="ct-message" placeholder="Your message…" style="min-height:140px;"></textarea>
+      </div>
+      <button class="form-submit" onclick="submitContact()">Send Message</button>
+    </div>
+
+    <div class="success-panel" id="contactSuccess">
+      <span class="success-icon">✉️</span>
+      <div class="success-title">Message Sent</div>
+      <p class="success-body">Thank you for getting in touch. We'll get back to you within 1–2 business days.</p>
+      <button class="success-reset" onclick="resetContact()">Send Another Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">ZARAGOZA</div>
+      <p class="footer-brand-tagline">Authentic Spanish cuisine in the heart of the city.</p>
+      <div class="footer-social"><a href="#">in</a><a href="#">ig</a><a href="#">fb</a></div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Visit</div>
+      <ul class="footer-links">
+        <li><a href="#">142 Castile Avenue</a></li>
+        <li><a href="#">New York, NY 10001</a></li>
+        <li><a href="tel:+12125550182">+1 (212) 555-0182</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Hours</div>
+      <ul class="footer-links">
+        <li><a href="#">Mon: Closed</a></li>
+        <li><a href="#">Tue–Thu: 12–10pm</a></li>
+        <li><a href="#">Fri–Sat: 12–11pm</a></li>
+        <li><a href="#">Sun: 12–9pm</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Zaragoza Restaurant &amp; Bar.</span>
+    <span>Prototype by Ajackus</span>
+  </div>
+</footer>
+
+<a href="reservations.html" class="sticky-reserve" id="stickyReserve">Reserve a Table</a>
+
+<script>
+function submitContact() {
+  const name = document.getElementById('ct-name').value.trim();
+  const email = document.getElementById('ct-email').value.trim();
+  const msg = document.getElementById('ct-message').value.trim();
+  if (!name || !email || !msg) {
+    alert('Please fill in your name, email, and message.');
+    return;
+  }
+  document.getElementById('contactForm').style.display = 'none';
+  document.getElementById('contactSuccess').classList.add('visible');
+}
+function resetContact() {
+  document.getElementById('contactForm').style.display = 'grid';
+  document.getElementById('contactSuccess').classList.remove('visible');
+  ['ct-name','ct-email','ct-subject','ct-message'].forEach(id => document.getElementById(id).value = '');
+}
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('stickyReserve').classList.toggle('visible', window.scrollY > 300);
+});
+function openNav() { document.getElementById('navDrawer').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeNav() { document.getElementById('navDrawer').classList.remove('open'); document.body.style.overflow=''; }
+</script>
+</body>
+</html>
